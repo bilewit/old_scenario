@@ -1,0 +1,25 @@
+
+
+
+{% if profile.private_profile == True %}
+    {% if user.profile.id == profile.id %}
+    {% include 'users/myprofile.html' %}
+
+    {% elif user in profile.followers.all %}
+        {% include 'users/user_view.html' %}
+    {% else %}
+        {% include 'users/private_view.html' %}
+{% endif %}
+
+{% elif user in profile.block_list.all %}
+{% include 'users/blocked_view.html' %}
+
+{% elif profile.banned == True %}
+{% include 'users/suspended_view.html' %}
+
+
+
+
+{% else %}
+{% include 'users/user_view.html' %}
+{% endif %}

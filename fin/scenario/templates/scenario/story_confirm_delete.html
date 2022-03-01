@@ -1,0 +1,20 @@
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<body id="wall">
+    <div class="container">
+        <div class="content-posts active" id="posts">
+            <div id="posts-container" class="container-fluid container-posts">
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {% csrf_token %}
+        <h2>You sure you want to delete?"{{object.story_title}}"</h2>
+
+        <button type="submit">Yes Delete</button>
+        <a href="{% url 'story-detail' object.id %}">cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

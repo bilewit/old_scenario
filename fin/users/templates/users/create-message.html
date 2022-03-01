@@ -1,0 +1,17 @@
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<body id="wall">
+    <div class="container">
+        <div class="content-posts active" id="posts">
+            <div id="posts-container" class="container-fluid container-posts">
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    {{form|crispy}}
+                    <button type="submit" value="Save">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

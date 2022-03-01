@@ -1,0 +1,8 @@
+{% extends 'scenario/navbar.html' %}
+{% block content %}
+<h1>Following</h1>
+{{following}}
+{% for x in following %}
+<br><a href="{% url 'profile_detail' x.user_to.id %}">{{ x.user_to }}</a>
+{% endfor %}
+{% endblock content %}

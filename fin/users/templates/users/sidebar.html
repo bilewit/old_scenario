@@ -1,0 +1,9 @@
+   <div class="sidebar-nav">
+        <a href="{% url 'my-profile' %}" title="Profile">
+            <img src="{{user.profile.profile_pic.url}}" alt="User name" class="img-circle img-user">
+        </a>
+        <h2 class="text-center hidden-xs"><a href="{% url 'my-profile' %}" title="Profile">{{user.username}}</a></h2>
+        <p class="text-center user-description hidden-xs">
+            <i>{{user.profile.bio}}</i>
+        </p>
+   </div>

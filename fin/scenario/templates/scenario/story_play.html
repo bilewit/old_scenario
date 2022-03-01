@@ -1,0 +1,25 @@
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<body id="wall">
+    <div class="container">
+        <div class="content-posts active" id="posts">
+            <div id="posts-container" class="container-fluid container-posts">
+                <a><img src="{{scene.scene_pic.url}}" alt="{{story.story_title}}" style="width:500px;height:300px;"></a>
+                <p>{{pre_scene}}</p>
+                <p>{{scene}}</p>
+                <div class="container">
+                    <br>
+                <form method="POST">{% csrf_token %}
+                    {% for choice in scene.choicescene.all %}
+                    <br><input id="choice" name='choice' value="{{choice.id}}" type="radio">{{choice}}
+                    {% endfor %}
+                    <br><br>
+                    <button id="submit" type="submit">Choose</button>
+                </form>
+             </div>
+            </div>
+        </div>
+</body>
+{% endblock content %}

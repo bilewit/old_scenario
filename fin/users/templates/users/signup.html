@@ -1,0 +1,48 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SignUp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" type="text/css">
+    <script src="{% static 'lib/jquery-3.2.0.min.js'%}"></script>
+    <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'scenario/style.css' %}" type="text/css">
+</head>
+
+<body id="login-page">
+    <div class="form-box">
+        <div class="form-logo">
+            <p class="text-center"><img src="https://placehold.it/300x50" alt="logo"></p>
+        </div>
+        <form method="POST">{% csrf_token %}
+            {{ form|crispy }}
+        </form>
+        <a href="{%url 'login' %}" class="login-action" title="login">
+            <p>Have an account?</p>
+        </a>
+    </div><!--close form-box-->
+
+    <footer class="login-footer text-center">
+        <div class="col-xs-3">
+            <a class="login-action" href="" title="language">LANGUAGE</a>
+        </div>
+        <div class="col-xs-3">
+            <a class="login-action" href="" title="terms">TERMS</a>
+        </div>
+        <div class="col-xs-3">
+            <a class="login-action" href="" title="privacy">PRIVACY</a>
+        </div>
+        <div class="col-xs-3">
+            <a class="login-action" href="" title="careers">CAREERS</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+{% extends 'scenario/navbar.html' %}
+<p>HI</p>
+
+{% block content %}
+{% for profile in profiles %}
+<a href="{% url 'profile_detail' profile.id %}">{{ profile }}</a>
+<br>
+{% endfor %}
+{% endblock content %}

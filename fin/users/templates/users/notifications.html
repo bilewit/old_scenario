@@ -1,0 +1,10 @@
+<h1>Notifications</h1>
+
+{% for x in notifications %}
+<p>{{x.sender}} {{x.reason}} {{x.reciever}} {{x.time}}</p>
+{% endfor %}
+
+<h1>old Notifications</h1>
+{% for x in old_notifications %}
+<p>{{x.sender}} {{x.reason}} {{x.reciever}} {{x.time}}</p>
+{% endfor %}

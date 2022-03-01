@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" type="text/css">
+    <script src="{% static 'lib/jquery-3.2.0.min.js'%}"></script>
+    <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-switch/css/bootstrap-switch.min.css' %}">
+    <script src="{% static 'lib/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+    <script src="https://twemoji.maxcdn.com/twemoji.min.js"></script>
+    <script src="{% static 'js/lazy-load.min.js' %}"></script>
+    <script src="{% static 'js/socialyte.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'scenario/style.css' %}" type="text/css">
+</head>
+
+<body id="user">
+
+    <!--Header with Nav -->
+    {% include "scenario/nnavbar.html" %}
+
+    <!--Left Sidebar with info Profile -->
+    <div class="sidebar-nav">
+
+        <a href="{% url 'profile-detail' profile.id %}" title="User profile">
+            <img src="{{profile.profile_pic.url}}" alt="{{profile.user.username}}" class="img-circle img-user">
+        </a>
+        <h2 class="text-center hidden-xs"><a href="user-profile.html" title="{{profile.user.username}}">{{profile.user.username}}</a></h2>
+
+
+        <h6 class="text-center hidden-xs"><a href="#">unblock</a></h6>
+
+
+
+
+        <p class="text-center user-description hidden-xs">
+            <i>{{profile.bio}}</i>
+        </p>
+    </div>
+
+    <div class="content-posts profile-content">
+        <div class="banner-profile" style="background-image: url('{{profile.profile_banner.url}}')">
+        </div>
+        <!-- Tab Panel -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#profile" role="tab" id="profileTab" data-toggle="tab" aria-controls="profile" aria-expanded="true">Profile</a></li>
+        </ul>
+
+        <!--Start Tab Content-->
+        <div class="tab-content">
+
+            <!--Start Tab Profile-->
+            <div class="tab-pane fade active in" role="tabpanel" id="profile" aria-labelledby="profileTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <ul class="profile-data">
+                            {% if user == profile.user %}
+                            {% else %}
+                            <li><a href="{% url 'profile-report' profile.id  %}">report</a></li>
+                            <li><a data-href="{% url 'profile-block-toggle' profile.id%}">unblock</a></li>
+                            {% endif %}
+                            <li><b>Username:</b> {{profile.user.username}}</li>
+                            <li><b>Age:</b> {{profile.dob}} </li>
+                            <li><b>Followers:</b> {{profile.followers.count}} </li>
+                            <li><b>Following:</b> {{profile.following.count}} </li>
+                            <li><b>Joined:</b> {{profile.joined}}</li>
+                            <li><b>Awards:</b> {{profile.awards.count}}</li>
+                            <li><b>Bio:</b> {{profile.bio}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- end tab Profile -->
+
+
+
+            <!-- Start Tab chat-->
+            <div class="tab-pane fade" role="tabpanel" id="chat" aria-labelledby="chatTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <div class="scrollbar-container">
+                            <div class="row chat-row">
+                                <div class="col-sm-2 col-xs-3">
+                                    <a href="user-profile.html" title="User profile">
+                                        <img src="https://placehold.it/300x300" alt="User name" class="img-circle img-user">
+                                    </a>
+                                </div>
+                                <div class="col-sm-7 col-xs-8 chat-message">
+                                    <h4>User Name</h4>
+                                    <p class="chat-time">An hour ago</p>
+                                    Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor
+                                </div>
+                            </div>
+                            <div class="row chat-row">
+                                <div class="col-sm-2 col-xs-3 pull-right">
+                                    <a href="personal-profile.html" title="User profile">
+                                        <img src="https://placehold.it/300x300" alt="My User" class="img-circle img-user">
+                                    </a>
+                                </div>
+                                <div class="col-sm-7 col-xs-8 chat-message pull-right">
+                                    <h4>My user</h4>
+                                    <p class="chat-time text-right">An hour ago</p>
+                                    Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor
+                                </div>
+                            </div>
+                            <div class="row chat-row">
+                                <div class="col-sm-2 col-xs-3">
+                                    <a href="user-profile.html" title="User profile">
+                                        <img src="https://placehold.it/300x300" alt="User name" class="img-circle img-user">
+                                    </a>
+                                </div>
+                                <div class="col-sm-7 col-xs-8 chat-message">
+                                    <h4>User Name</h4>
+                                    <p class="chat-time">An hour ago</p>
+                                    Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor &#x1F648; &#x1F648;
+                                </div>
+                            </div>
+                            <div class="row chat-row">
+                                <div class="col-sm-2 col-xs-3 pull-right">
+                                    <a href="personal-profile.html" title="User profile">
+                                        <img src="https://placehold.it/300x300" alt="My user" class="img-circle img-user">
+                                    </a>
+                                </div>
+                                <div class="col-sm-7 col-xs-8 chat-message pull-right">
+                                    <h4>My user</h4>
+                                    <p class="chat-time text-right">A minut ago</p>
+                                    Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor si amet, Lorem Ipsum Dolor &#x1F648; &#x1F648;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row chat-row">
+                            <div class="col-sm-12">
+                                <form class="form-message">
+                                    <input type="text" class="form-control" placeholder="Send a message">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Tab chat-->
+
+
+
+        </div><!-- Close Tab Content-->
+
+    </div><!--Close content posts-->
+
+
+
+</body>

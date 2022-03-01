@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<body id="user">
+
+    <!--Header with Nav -->
+    {% include "scenario/nnavbar.html" %}
+
+    <!--Left Sidebar with info Profile -->
+    <div class="sidebar-nav">
+
+        <a href="{% url 'profile-detail' profile.id %}" title="User profile">
+            <img src="{{profile.profile_pic.url}}" alt="{{profile.user.username}}" class="img-circle img-user">
+        </a>
+        <h2 class="text-center hidden-xs"><a href="user-profile.html" title="{{profile.user.username}}">{{profile.user.username}}</a></h2>
+
+        {% if user in profile.followers.all %}
+        <h6 class="text-center hidden-xs"><a href="{% url 'profile-follow-toggle' profile.id%}" id="follow">unFollow</a></h6>
+        {% elif user == profile.user %}
+        <h6 class="text-center hidden-xs"><a href="#">:)</a></h6>
+        {% else %}
+        <h6 class="text-center hidden-xs"><a href="{% url 'profile-follow-toggle' profile.id%}" id="follow">Follow</a></h6>
+        {% endif %}
+
+
+
+        <p class="text-center user-description hidden-xs">
+            <i>{{profile.bio}}</i>
+        </p>
+    </div>
+
+    <div class="content-posts profile-content">
+        <div class="banner-profile" style="background-image: url('{{profile.profile_banner.url}}')">
+        </div>
+        <!-- Tab Panel -->
+        <ul class="nav nav-tabs" role="tablist">
+            {% if user_stories.count > 0 %}
+            <li class="active"><a href="#posts" role="tab" id="postsTab" data-toggle="tab" aria-controls="posts" aria-expanded="true">{{profile.user.username}} posts</a></li>
+            {% else %}{% endif %}
+            {% if user_reshares.count > 0 %}
+            <li><a href="#reshares" role="tab" id="resharesTab" data-toggle="tab" aria-controls="posts" aria-expanded="true">Reshares</a></li>
+            {% else %}{% endif %}
+            <li><a href="#profile" role="tab" id="profileTab" data-toggle="tab" aria-controls="profile" aria-expanded="true">Profile</a></li>
+            {% if profile.awards.count > 0 %}
+            <li><a href="#awards" role="tab" id="awardsTab" data-toggle="tab" aria-controls="profile" aria-expanded="true">Awards</a></li>
+            {% else %}{% endif %}
+            <li><a href="#chat" role="tab" id="chatTab" data-toggle="tab" aria-controls="chat" aria-expanded="true">Chat</a></li>
+        </ul>
+
+        <!--Start Tab Content-->
+        <div class="tab-content">
+
+            <!-- Tab Posts -->
+            <div class="tab-pane fade active in" role="tabpanel" id="posts" aria-labelledby="postsTab">
+                <div id="posts-container" class="container-fluid container-posts">
+
+                    {% for story in user_stories %}
+                    {% include "users/card.html" %}
+                    {% endfor %}
+                </div>
+                <div id="loading">
+                    <img src="{% static 'img/load.gif'%}" alt="loader">
+                </div>
+            </div><!-- end Tab Posts -->
+
+
+            <!-- Tab Reshares -->
+            <div class="tab-pane fade" role="tabpanel" id="reshares" aria-labelledby="postsTab">
+                <div id="posts-container" class="container-fluid container-posts">
+
+                   {% for story in user_reshares %}
+                    {% include "users/card.html" %}
+                    {% endfor %}
+
+                </div>
+                <div id="loading">
+                    <img src="{% static 'img/load.gif'%}" alt="loader">
+                </div>
+            </div><!-- end Tab Reshares -->
+
+
+
+
+            <!--Start Tab Profile-->
+            <div class="tab-pane fade" role="tabpanel" id="profile" aria-labelledby="profileTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <ul class="profile-data">
+                            {% if user == profile.user %}
+                            {% else %}
+
+
+                            {% if user in profile.followers.all %}
+                            <li><a data-href="{% url 'profile-follow-toggle' profile.id%}" id="follow">UnFollow {{profile.user.username}}'s Profile</a></li>
+                            {% else %}
+                            <li><a data-href="{% url 'profile-follow-toggle' profile.id%}" id="follow">Follow {{profile.user.username}}'s Profile</a></li>
+                            {% endif %}
+                            <li><a data-href="{% url 'profile-favorite-toggle' profile.id%}">Favorite {{profile.user.username}}'s Profile</a></li>
+                            <li><a href="{% url 'profile-report' profile.id  %}">report</a></li>
+                            <li><a data-href="{% url 'profile-block-toggle' profile.id%}">block</a></li>
+                            {% endif %}
+                            <li><b>Username:</b> {{profile.user.username}}</li>
+                            <li><b>Age:</b> {{profile.dob}} </li>
+                            <li><b>Followers:</b> {{profile.followers.count}} </li>
+                            <li><b>Following:</b> {{profile.following.count}} </li>
+                            <li><b>Joined:</b> {{profile.joined}}</li>
+                            <li><b>Awards:</b> {{profile.awards.count}}</li>
+                            <li><b>Bio:</b> {{profile.bio}}</li>
+                            {% if profile.website == None %}
+                            {% else %}
+                            <li><b>Website: <a href="{{profile.website}}" target="_blank">{{profile.website}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.instagram == None %}
+                            {% else %}
+                            <li><b>Instagram: <a href="https://instagram.com/{{profile.instagram}}/" target="_blank">@{{profile.instagram}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.twitter == None %}
+                            {% else %}
+                            <li><b>Twitter: <a href="https://twitter.com/{{profile.twitter}}" target="_blank">@{{profile.twitter}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.tiktok == None %}
+                            {% else %}
+                            <li><b>TikTok: <a href="https://www.tiktok.com/@{{profile.tiktok}}" target="_blank">@{{profile.tiktok}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.youtube == None %}
+                            {% else %}
+                            <li><b>Youtube: <a href="https://www.youtube.com/user/{{profile.youtube}}" target="_blank">{{profile.youtube}}</a></b> </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end tab Profile -->
+
+
+
+            <script>
+     $(document).ready(function(){
+          function updateText(btn, newCount, verb){
+          btn.text(newCount + " " + verb)
+      }
+
+      $("#follow").unbind("click").click(function(e){
+        e.preventDefault()
+        event.stopPropagation()
+        var this_ = $(this)
+        var FollowUrl = this_.attr("data-href")
+        if (FollowUrl){
+           $.ajax({
+            url: FollowUrl,
+            method: "GET",
+            data: {},
+            success: function(data){
+              console.log(data)
+              if (data.following){
+                  updateText(this_, "", "Unfollow")
+                  $('#follower-count').html(data.num_followers);
+
+
+              } else {
+                  updateText(this_, "", "Follow")
+                  $('#follower-count').html(data.num_followers - 1);
+
+                  // remove one like
+              }
+            }, error: function(error){
+              console.log(error)
+              console.log("error")
+            }
+          })
+        }
+
+      })
+  })
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--Start Tab Awards-->
+            <div class="tab-pane fade" role="tabpanel" id="awards" aria-labelledby="profileTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <ul class="profile-data">
+                        <p>awards</p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end tab Awards -->
+
+
+<!-- Start Tab chat-->
+            <div class="tab-pane fade" role="tabpanel" id="chat" aria-labelledby="chatTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <div class="scrollbar-container">
+                            {% for message in messages %}
+                            {% if message.sender == user %}
+                            <div class="row chat-row">
+                                <div class="col-sm-2 col-xs-3 pull-right">
+                                    <a href="{% url 'profile-detail' message.sender.profile.id %}" title="{{message.sender.profile}}">
+                                        <img src="{{message.sender.profile.profile_pic.url}}" alt="{{message.sender.profile}}" class="img-circle img-user">
+                                    </a>
+                                </div>
+                                <div class="col-sm-7 col-xs-8 chat-message pull-right">
+                                    <h4>{{message.sender.profile}}</h4>
+                                    <p class="chat-time text-right">{{message.time_sent}}</p>
+                                    <span style="word-wrap: break-word;">{{message.message}}</span>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="row chat-row">
+                                <div class="col-sm-2 col-xs-3">
+                                    <a href="{% url 'profile-detail' message.sender.profile.id %}" title="{{message.sender.profile}}">
+                                        <img src="{{message.sender.profile.profile_pic.url}}" alt="{{message.sender.profile}}" class="img-circle img-user">
+                                    </a>
+                                </div>
+                                <div class="col-sm-7 col-xs-8 chat-message">
+                                    <h4>{{message.sender.profile}}</h4>
+                                    <p class="chat-time">{{message.time_sent}}</p>
+                                    <span style="word-wrap: break-word;">{{message.message}}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+
+                        </div>
+                        <div class="row chat-row">
+                            <div class="col-sm-12">
+                                {% if thread %}
+                                <form class="form-message">
+                                    <a href="{%url 'reply-thread' thread_id%}">Press here to reply</a>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Tab chat-->
+
+
+
+
+
+
+        </div><!-- Close Tab Content-->
+
+    </div><!--Close content posts-->
+
+    <!-- Modal container for settings--->
+    <form method="post"> {% csrf_token %}
+        <div id="settingsmodal" class="modal fade text-center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    </form>
+
+
+</body>

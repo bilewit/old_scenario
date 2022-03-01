@@ -1,0 +1,44 @@
+{% include "scenario/nnavbar.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<br><br><br><br>
+<br><br><br><br>
+<br>
+
+
+<div class="container">
+
+    <form class="example" method="GET">
+        <input type="text" placeholder="username search" name="search">
+        <button type="submit">
+            search
+     </button>
+    </form>
+
+
+<h1>Users Found</h1>
+
+{% if all_search_results %}
+    {% for result in all_search_results %}
+        <div class="container pull-right">
+           <div class="row row-user-list">
+            <div class="col-sm-2 col-xs-3">
+                <img src="{{result.profile.profile_pic.url}}" alt="{{result.username}}" class="img-circle img-user">
+            </div>
+            <div class="col-sm-7 col-xs-9">
+                <a href="{%url 'profile-detail' result.profile.id%}"><b>{{result}} </b> <span class="badge"></span></a>
+                <p class="chat-time"></p>
+                <p></p>
+            </div>
+            <div class="col-sm-3 hidden-xs">
+                <p><a href="{%url 'profile-detail' result.profile.id%}" title="Replay"><span class="badge badge-replay">View Profile ></span></a></p>
+            </div>
+        </div>
+            </div>
+{% empty %}
+   <p>Sorry no user found</p>
+{% endfor %}
+{% endif %}
+
+    {% endblock %}

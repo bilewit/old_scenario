@@ -1,0 +1,20 @@
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<body id="wall">
+    <div class="container">
+        <div class="content-posts active" id="posts">
+            <div id="posts-container" class="container-fluid container-posts">
+            <img src="{{choice_pic}}" class="img-fluid" style="width:500px;height:300px;"><br>
+            {{choice}}<br><br>
+            <a href="{% url 'story-detail' story.id%}">Click to return</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+{% endblock content %}

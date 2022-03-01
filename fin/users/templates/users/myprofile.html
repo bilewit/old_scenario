@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>myprofile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" type="text/css">
+    <script src="{% static 'lib/jquery-3.2.0.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-switch/css/bootstrap-switch.min.css' %}">
+    <script src="{% static 'lib/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+    <script src="https://twemoji.maxcdn.com/twemoji.min.js"></script>
+    <script src="{% static 'js/lazy-load.min.js' %}"></script>
+    <script src="{% static 'js/socialyte.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'scenario/style.css' %}" type="text/css">
+</head>
+
+<body id="personal">
+    <!--Header with Nav -->
+    <div>
+    {% include "scenario/nnavbar.html" %}</div>
+
+    <!--Left Sidebar with info Profile -->
+    <div class="sidebar-nav">
+        <a href="{% url 'my-profile' %}" title="Profile">
+            <img src="{{profile.profile_pic.url}}" alt="{{profile.user.username}}" class="img-circle img-user">
+        </a>
+        <h2 class="text-center hidden-xs"><a href="personal-profile.html" title="Profile">{{profile.user.username}}</a></h2>
+        <p class="text-center user-description hidden-xs">
+            <i>{{profile.bio}}</i>
+        </p>
+    </div>
+
+    <div class="content-posts profile-content">
+        <div class="banner-profile" style="background-image: url('{{profile.profile_banner.url}}')">
+        </div>
+        <!-- Tab Panel -->
+        <ul class="nav nav-tabs" role="tablist">
+            {% if user_stories.count > 0 %}
+            <li class="active"><a href="#posts" role="tab" id="postsTab" data-toggle="tab" aria-controls="posts" aria-expanded="true">{{profile.user.username}} posts</a></li>
+            {% else %}{% endif %}
+            <li><a href="#notifications" role="tab" id="notificationTab" data-toggle="tab" aria-controls="posts" aria-expanded="true">Notifications <b>{{user.profile.notifications.count}}</b></a></li>
+            {% if user_favorites.count > 0 %}
+            <li><a href="#favorites" role="tab" id="favoriteTab" data-toggle="tab" aria-controls="posts" aria-expanded="true">Favorite</a></li>
+            {% else %}{% endif %}
+            {% if user_reshares.count > 0 %}
+            <li><a href="#reshares" role="tab" id="resharesTab" data-toggle="tab" aria-controls="posts" aria-expanded="true">Reshares</a></li>
+            {% else %}{% endif %}
+            <li><a href="#profile" role="tab" id="profileTab" data-toggle="tab" aria-controls="profile" aria-expanded="true">Profile Info</a></li>
+            {% if stats %}
+            <li><a href="#stats" role="tab" id="statsTab" data-toggle="tab" aria-controls="profile" aria-expanded="true">Stats</a></li>
+            {% endif %}
+            {% if profile.awards.count > 0 %}
+            <li><a href="#awards" role="tab" id="awardsTab" data-toggle="tab" aria-controls="profile" aria-expanded="true">Awards</a></li>
+            {% else %}{% endif %}
+            <li><a href="#chat" role="tab" id="chatTab" data-toggle="tab" aria-controls="chat" aria-expanded="true">Chat</a></li>
+        </ul>
+
+        <!--Start Tab Content-->
+        <div class="tab-content">
+
+
+
+             <!-- Tab Posts -->
+            <div class="tab-pane fade active in" role="tabpanel" id="posts" aria-labelledby="postsTab">
+                <div id="posts-container" class="container-fluid container-posts">
+
+                    {% for story in user_stories %}
+                    {% include "users/card.html" %}
+                    {% endfor %}
+                </div>
+                <div id="loading">
+                    <img src="{% static 'img/load.gif'%}" alt="loader">
+                </div>
+            </div><!-- end Tab Posts -->
+
+  <!-- Tab Favorites -->
+            <div class="tab-pane fade active in" role="tabpanel" id="favorites" aria-labelledby="postsTab">
+                <div id="posts-container" class="container-fluid container-posts">
+
+                    {% for story in user_favorites %}
+                    {% include "users/card.html" %}
+                    {% endfor %}
+                </div>
+                <div id="loading">
+                    <img src="{% static 'img/load.gif'%}" alt="loader">
+                </div>
+            </div><!-- end Tab Favorites -->
+
+  <!-- Tab Reshares -->
+            <div class="tab-pane fade active in" role="tabpanel" id="reshares" aria-labelledby="postsTab">
+                <div id="posts-container" class="container-fluid container-posts">
+                    {% for story in user_reshares %}
+                    {% include "users/card.html" %}
+                    {% endfor %}
+                </div>
+                <div id="loading">
+                    <img src="{% static 'img/load.gif'%}" alt="loader">
+                </div>
+            </div><!-- end Tab reshares -->
+
+            <!--Start Tab Profile-->
+            <div class="tab-pane fade" role="tabpanel" id="profile" aria-labelledby="profileTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        {% if profile.pending_followers.count > 0 %}
+                        <li><a data-href="">Pending followers {{profile.pending_followers.count}}</a></li>
+                        {% else %}{% endif %}
+                        {% if profile.block_list.count > 0 %}
+                        <li><a data-href="">Block list</a></li>
+                        {% else %}{% endif %}
+                        <li><b>Username:</b> {{profile.user.username}}</li>
+                            <li><b>Age:</b> {{profile.dob}} </li>
+                            <li><b>Followers:</b> {{profile.followers.count}} </li>
+                            <li><b>Following:</b> {{profile.following.count}} </li>
+                            <li><b>Joined:</b> {{profile.joined}}</li>
+                            <li><b>Awards:</b> {{profile.awards.count}}</li>
+                            <li><b>Bio:</b> {{profile.bio}}</li>
+                            {% if profile.website == None %}
+                            {% else %}
+                            <li><b>Website: <a href="{{profile.website}}" target="_blank">{{profile.website}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.instagram == None %}
+                            {% else %}
+                            <li><b>Instagram: <a href="https://instagram.com/{{profile.instagram}}/" target="_blank">@{{profile.instagram}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.twitter == None %}
+                            {% else %}
+                            <li><b>Twitter: <a href="https://twitter.com/{{profile.twitter}}" target="_blank">@{{profile.twitter}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.tiktok == None %}
+                            {% else %}
+                            <li><b>TikTok: <a href="https://www.tiktok.com/@{{profile.tiktok}}" target="_blank">@{{profile.tiktok}}</a>  </b> </li>
+                            {% endif %}
+                            {% if profile.youtube == None %}
+                            {% else %}
+                            <li><b>Youtube: <a href="https://www.youtube.com/user/{{profile.youtube}}" target="_blank">{{profile.youtube}}</a></b> </li>
+                            {% endif %}
+                        <p><a href="{% url 'profile' user.id %}" data-toggle="modal" data-target="#settingsmodal" title="edit profile"><i class="fa fa-pencil" aria-hidden="true"></i> Edit profile</a></p>
+                    </div>
+                </div>
+            </div><!-- end tab Profile -->
+
+
+
+
+
+
+
+
+
+
+
+            <!--Start Tab Stats-->
+            {% if stats %}
+            <div class="tab-pane fade" role="tabpanel" id="stats" aria-labelledby="statsTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <h3> {{profile.user.usernam}} Stats</h3>
+                        <li><b>Stories Played:</b> {{stats.stories_played.count}}</li>
+                        <li><b>Stories Finished:</b> {{stats.stories_finished.count}}</li>
+                        <li><b>Stories Finished  on first try:</b> {{stats.stories_yolo.count}}</li>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <!-- end tab Stats -->
+
+
+
+
+
+
+
+
+
+
+
+            <!--Start Awards Tab-->
+            <div class="tab-pane fade" role="tabpanel" id="awards" aria-labelledby="profileTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <ul class="profile-data">
+                            <p>Awards Here</p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end Award tab -->
+
+            <!-- Start Tab chat-->
+            <div class="tab-pane fade" role="tabpanel" id="chat" aria-labelledby="chatTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <div class="scrollbar-container">
+                            {% for thread in inbox.all %}
+                            {% for user in thread.room.all %}
+                            {% if user == profile.user %}
+                            {% else %}
+                            <div class="row row-user-list">
+                                <div class="col-sm-2 col-xs-3">
+                                    <img src="{{user.profile.profile_pic.url}}" alt="{{user}}" class="img-circle img-user">
+                                </div>
+                                <div class="col-sm-7 col-xs-9">
+                                    <a href="{% url 'profile-detail' user.profile.id %}"><p><b>{{user}}</b> <span class="badge"></span></p></a>
+                                    <p class="chat-time"></p>
+                                    <p></p>
+                                </div>
+                                <div class="col-sm-3 hidden-xs">
+                                    <p><a href="{%url 'view-thread' thread.id%}" title="Replay"><span class="badge badge-replay">View Thread ></span></a></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Tab chat-->
+
+
+        <!--            start notifications tab-->
+            <div class="tab-pane fade" role="tabpanel" id="notifications" aria-labelledby="profileTab">
+                <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <div><a href="{%url 'notifications-clear'%}" class="pull-right">clear notifications</a><h3>New Notifications </h3></div>
+                        <ul class="profile-data">
+                        {% for notification in user.profile.notifications.all %}
+                        <li class="new-not">
+                         <a href="#" title="User name comment"><img src="{{notification.sender.profile.profile_pic.url}}" alt="User n" class="img-circle img-user-mini"> {{notification.sender}} {{notification.reason}} {{notification.time}}</a>
+                        </li>
+                        {% endfor %}
+                        </ul>
+
+                        {% if user.profile.old_notifications %}
+                        <h3>Old Notifications</h3>
+                        <ul class="profile-data">
+                        {% for notification in user.profile.old_notifications.all %}
+                        <li class="new-not">
+                         <a href="#" title="User name comment"><img src="{{notification.sender.profile.profile_pic.url}}" alt="User n" class="img-circle img-user-mini"> {{notification.sender}} {{notification.reason}} {{notification.time}}</a>
+                        </li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+<!--            end notifications tab-->
+
+
+        <!-- Close Tab Content-->
+
+    <!--Close content posts-->
+
+    <!-- Modal container for settings--->
+    <div id="settingsmodal" class="modal fade text-center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
+</body>

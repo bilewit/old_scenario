@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<body id="wall">
+
+{% include "scenario/nnavbar.html" %}
+
+    <!--Left Sidebar with info Profile -->
+    {% include 'users/sidebar.html'%}
+
+    <!--Wall with Post -->
+    <div class="content-posts active" id="posts">
+        <div id="posts-container" class="container-fluid container-posts">
+
+<!--POST CARDS PUN NOT INTINDED START-->
+        <!-- post start-->
+            <br>
+            <div class="wrapper">
+             {% for story in storys %}
+            {% include "users/card.html" %}
+                {% endfor %}
+            </div>
+
+
+                <br>
+
+            <!-- post end(technically this is the card end )-->
+
+            </div>
+        </div>
+    <!--POST CARDS PUN NOT INTINDED START-->
+
+
+
+
+        <!--Close #posts-container-->
+<!--        <div id="loading">-->
+<!--            <img src="{% static 'img/load.gif' %}" alt="loader">-->
+<!--        </div>-->
+    </div>
+    <!-- Close #posts -->
+    <!-- Modal container for settings--->
+    <div id="settingsmodal" class="modal fade text-center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

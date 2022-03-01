@@ -1,0 +1,17 @@
+<h1>Block List</h1>
+
+
+<!--path('api/profile/<int:pk>/block/', BlockAPIToggle.as_view(), name='profile-block-toggle'),-->
+
+
+<br>
+<br>
+
+
+{% for user in profile.block_list.all %}
+
+<span><a href="{%url 'profile-detail' user.id %}">{{user}} </a><a data-href="{% url 'profile-block-toggle' user.id %}" id="unblock" href="#">unblock</a></span>
+<br>
+<br>
+
+{% endfor %}

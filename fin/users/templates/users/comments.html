@@ -1,0 +1,9 @@
+<div class="row chat-row">
+    <div class="col-sm-2 col-xs-3 pull-right">
+    </div>
+    <div class="col-sm-7 col-xs-8 chat-message pull-right">
+        <h4><a href="{%url 'profile-detail' comment.author.id%}">{{comment.author}}</a></h4>
+        <p class="chat-time text-right">{{comment.created}}</p>
+        <span style="word-wrap: break-word;">{{comment.comment_text}}</span>
+    </div>
+</div>

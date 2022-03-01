@@ -1,0 +1,30 @@
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<body id="wall">
+    <div class="container">
+        <div class="content-posts active" id="posts">
+            <div id="posts-container" class="container-fluid container-posts">
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <h1>**Please ensure each scene has a choice or story will not publish** </h1>
+                {{form|crispy}}
+
+                    {% for x in choice %}
+                <br>
+        <a href="{% url 'choice-update' x.id %}">{{x}}</a>
+
+        {% endfor %}
+        <br><br>
+        <button type="submit">Save</button>
+        {% if scene %}
+        <a href="{% url 'choice-create' scene.id %}">add choice</a>
+        <a href="{% url 'scene-delete' scene.id %}">Delete scene</a>
+        {% else %}
+        {% endif %}
+            </form>
+            </div>
+        </div>
+</div>
+</body>
+{% endblock content %}

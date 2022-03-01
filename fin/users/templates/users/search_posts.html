@@ -1,0 +1,36 @@
+{% include "scenario/nnavbar.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<div class="container">
+    <form class="example" method="GET">
+        <input type="text" placeholder="tag search" name="search">
+        <button type="submit">
+            search
+     </button>
+    </form>
+
+<p>if theres no stories with tag then nothing will come up</p>
+<h1>Posts Found with tag</h1>
+{% if tag_search %}
+    {% for tag in tag_search %}
+    <span><h1><a href="{%url 'story-detail' tag.id%}">{{tag.story_title}}</a></h1></span>
+    <p>Description: {{tag.story_description}}</p>
+    <p>Published: {{tag.pub_date}}</p>
+    <p>Likes: {{tag.likes.count}} </p> <p> Reshares: {{tag.reshares.count}}</p>
+
+
+
+
+{% endfor %}
+    {% elif tag_search.count == 0 %}
+    <p>no stories found with the tag "{{search}}"</p>
+
+{% endif %}
+
+<br><br>
+
+{% endblock %}

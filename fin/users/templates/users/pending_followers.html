@@ -1,0 +1,20 @@
+
+
+
+<!--'pending-follower-accept'-->
+<!--'pending-follower-decline'-->
+<!--dont forget the ids-->
+
+<h1>{{user.profile.pending_followers.count}} Pending Followers</h1>
+
+<br>
+    <br>
+{% for user in user.profile.pending_followers.all %}
+
+<span>  <a href="{%url 'profile-detail' user.id %}">{{user}} </a><a data-href="{% url 'pending-follower-accept' user.id %}" id="accept" href="#">Accept</a>&nbsp;&nbsp;<a data-href="{% url 'pending-follower-decline' user.id %}" id="decline" href="#">Decline</a></span>
+<br>
+<br>
+
+
+{% endfor %}
+

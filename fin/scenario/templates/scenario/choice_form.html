@@ -1,0 +1,32 @@
+<!--if you editing choice then it will be prefilled already-->
+<!--with the boolean option -->
+
+
+<!--else your jus putting in the choice text -->
+<!--and weather it ends the game or not -->
+<!--if it ends the game then another text box will be avaliable to enter how-->
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<body id="wall">
+    <div class="container">
+        <div class="content-posts active" id="posts">
+            <div id="posts-container" class="container-fluid container-posts">
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                {{form|crispy}}
+                    <p><b><u>choice pic is only for end scenes</u></b></p>
+                    <p><b><u>and only check 1 (end success or end fail) otherwise I will uncheck both</u></b></p>
+
+                <button type="submit">Save</button>
+                </form>
+                {%if choice %}
+                    <br><a href="{% url 'choice-delete' choice.id %}">Delete choice</a>
+                {% else %}{% endif %}
+                {{choices}}
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}
+

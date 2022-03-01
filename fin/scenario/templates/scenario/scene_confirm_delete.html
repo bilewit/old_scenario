@@ -1,0 +1,16 @@
+{% include "scenario/nnavbar.html" %}
+{% include 'users/sidebar.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+    <form method="POST">
+        {% csrf_token %}
+        <h2>You sure you want to delete?"{{object.scene_description}}"</h2>
+
+        <button type="submit">Yes Delete</button>
+        <a href="{% url 'scene-update' object.id %}">cancel</a>
+
+
+    </form>
+</div>
+{% endblock content %}

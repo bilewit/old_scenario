@@ -1,0 +1,130 @@
+
+<div class="card-post">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-2">
+                                <a href="{% url 'profile-detail' story.author.profile.id %}" title="{{story.author.profile}} profile">
+                                    <img src="{{story.author.profile.profile_pic.url}}" alt="{{story.author.profile}}" class="img-circle img-user">
+                                </a>
+                            </div>
+                            <div class="col-xs-9 col-sm-10 info-user">
+                                <h3><a href="{% url 'profile-detail' story.author.profile.id %}" title="{{story.author}}">{{story.author}}</a></h3>
+                                <p><i>{{story.pub_date}}</i></p>
+                                <h2>{{story.story_title}}</h2>
+                                <h3>{{story.story_description}}</h3>
+
+                                <p>Tags:{% for x in story.tags.all %} {{x}} {% endfor %}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2 data-post">
+                                <p>Lorem Ipsum Dolor si amet</p>
+                                <img src="{{story.story_pic.url}}" alt="{{story.story_title}}" class="img-post">
+                                <!-- Video here
+                                <video controls>
+                                  <source src="" type="video/mp4">
+                                  Your browser does not support the video tag.
+                                </video>
+                                -->
+                                <div class="reaction" >
+                                    {% if user in story.likes.all %}
+                                    <a class="like-btn" data-href="{{story.get_api_like_url}}" data-likes='{{ story.likes.count }}' href="{{story.get_api_like_url}}" >&#10084; {{story.likes.count}}</a>
+                                    {% else %}
+                                    <a class="like-btn" data-href="{{story.get_api_like_url}}" data-likes='{{ story.likes.count }}' href="{{story.get_api_like_url}}">&#9825; {{story.likes.count}}</a>
+                                    {% endif %}
+                                    {% if user in story.reshares.all %}
+                                    <a class="reshare-btn" href="{{story.get_api_reshare_url}}" data-href="{{story.get_api_reshare_url}}">  &#9851;yuh {{story.reshares.count}}</a>
+                                    {% else %}
+                                    <a class="reshare-btn" href="{{story.get_api_reshare_url}}" data-href="{{story.get_api_reshare_url}}">  &#9850; {{story.reshares.count}}</a>
+                                    {% endif %}
+                                    {% if user in story.favorites.all %}
+                                    <a class="fav-btn" href="{{story.get_api_favorite_url}}" data-href="{{story.get_api_favorite_url}}">  &#9733;</a>
+                                    {% else %}
+                                    <a class="fav-btn" href="{{story.get_api_favorite_url}}" data-href="{{story.get_api_favorite_url}}">  &#9734;</a>
+                                    {% endif %}
+                                    <a href="{%url 'story-report' story.id%}" class="pull-right"> report </a>
+                                    {% if user == story.author %}
+                                    <a href="{% url 'story-update' story.id %}" class="pull-right"> update&nbsp; </a>
+                                    <a href="{% url 'story-delete' story.id %}" class="pull-right"> Delete&nbsp; </a>
+                                    {% else %}{% endif %}
+                                </div>
+                                <div class="comments">
+                                    <a href="{% url 'story-play' story.id%}">Press here to play</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<script type="text/javascript">
+function WinLoad() {
+    var like = $(".like-btn");
+
+    like.on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('data-href');
+            $.ajax({
+            method: 'GET',
+            url: url,
+            data:{},
+            success: function(response){
+                alert("Post Liked/unliked refresh browser to see heart lol");
+                console.log('liked');
+                },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            },
+         });
+     });
+
+
+    var reshare = $(".reshare-btn");
+
+    reshare.on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('data-href');
+            $.ajax({
+            method: 'GET',
+            url: url,
+            data:{},
+            success: function(response){
+                alert("Post reshared/unreshared refresh browser to see symbol lol");
+                console.log('reshared');
+                },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            },
+         });
+     });
+
+     var favorite = $(".fav-btn");
+
+    favorite.on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('data-href');
+            $.ajax({
+            method: 'GET',
+            url: url,
+            data:{},
+            success: function(response){
+                alert("Post favorite/unfavorited refresh browser to see star lol");
+                console.log('favorited');
+                },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            },
+         });
+     });
+
+
+
+
+
+ }
+
+
+
+
+    window.onload = WinLoad;
+</script>
+
+{% block content %}
+{% endblock %}

@@ -1,0 +1,117 @@
+{% load static %}
+<head>
+    <title>User Profile Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" type="text/css">
+    <script src="{% static 'lib/jquery-3.2.0.min.js'%}"></script>
+    <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-switch/css/bootstrap-switch.min.css' %}">
+    <script src="{% static 'lib/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+    <script src="https://twemoji.maxcdn.com/twemoji.min.js"></script>
+    <script src="{% static 'js/lazy-load.min.js' %}"></script>
+    <script src="{% static 'js/socialyte.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'scenario/style.css' %}" type="text/css">
+</head>
+<!--Header with Nav -->
+    <header class="text-right">
+        <form class="text-center search" method="GET" action="/Search">
+            <input name="search" type="text" placeholder="Search">
+        </form>
+
+<!--        settings-->
+        <div class="menu-icon">
+            <div class="dropdown">
+                <span class="dropdown-toggle" role="button" id="dropdownSettings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  <span class="hidden-xs hidden-sm">Settings</span> <i class="fa fa-cogs" aria-hidden="true"></i>
+                </span>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownSettings">
+                    <li>
+                        <a href="{% url 'profile' user.id %}" title="Settings" data-toggle="modal" data-target="#settingsmodal">
+                            <div class="col-xs-4">
+                                <i class="fa fa-wrench" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-xs-8 text-left">
+                                <span>Settings</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'support-page' %}" title="Settings">
+                            <div class="col-xs-4">
+                                <i class="fa fa-question" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-xs-8 text-left">
+                                <span>Support</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}" title="Settings">
+                            <div class="col-xs-4">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-xs-8 text-left">
+                                <span>Logout</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+<!--        create-->
+         <div class="second-icon menu-icon"><span><a href="{% url 'story-create' %}" title="Wall"><span class="hidden-xs hidden-sm">Create</span> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+             <a href="{% url 'explore' %}" title="explore"><span class="hidden-xs hidden-sm"> &nbsp;explore</span> <i class="fa fa-random" aria-hidden="true"></i></a>
+            </span>
+        </div>
+
+<!--        notifications-->
+
+        <div class="second-icon dropdown menu-icon">
+            <span class="dropdown-toggle" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <span class="hidden-xs hidden-sm">Notifications</span> <i class="fa fa-bell-o" aria-hidden="true"></i> <span class="badge">{{user.profile.notifications.count}}</span>
+            </span>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownNotification">
+
+                {% if user.profile.notifications.count < 10 %}
+                {% for notification in user.profile.notifications.all %}
+                <li class="new-not">
+                    <a href="#" title="User name comment"><img src="{{notification.sender.profile.profile_pic.url}}" alt="User n" class="img-circle img-user-mini"> {{notification.sender}} {{notification.reason}} {{notification.time}}</a>
+                </li>
+                {% endfor %}
+                {% endif %}
+
+                <li role="separator" class="divider"></li>
+                <li><a href="{% url 'my-profile' %}" title="All notifications">All Notifications</a></li>
+            </ul>
+        </div>
+
+
+
+<!--        profile-->
+
+        <div class="second-icon menu-icon">
+            <span><a href="{% url 'my-profile' %}" title="Profile"><span class="hidden-xs hidden-sm">Profile</span> <i class="fa fa-user" aria-hidden="true"></i></a>
+            </span>
+        </div>
+
+
+<!--        wall-->
+
+        <div class="second-icon menu-icon">
+            <span><a href="{% url 'scenario-list' %}" title="Wall"><span class="hidden-xs hidden-sm">Wall</span> <i class="fa fa-database" aria-hidden="true"></i></a>
+            </span>
+        </div>
+
+
+
+    </header>
+
+
+
+
+    {% block content %}
+{% endblock %}

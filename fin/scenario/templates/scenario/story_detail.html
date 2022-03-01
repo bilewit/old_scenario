@@ -1,0 +1,54 @@
+{% extends 'scenario/nnavbar.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-7">
+            <br>
+            <br>
+            <br>
+            <br><br>
+            <br>
+            {% include 'users/card.html' %}
+        </div>
+        <div class="col-xs-5">
+            <br>
+            <br>
+            <br><br>
+            <br>
+            <br><br>
+            <p>Comments</p>
+            <br>
+            {% if finished == True %}
+            <div class="container-fluid container-posts">
+                    <div class="card-post">
+                        <div class="scrollbar-container"><br>
+                            {% for comment in comments %}
+                            {% include 'users/comments.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                <a href="{%url 'comment-create' story.id%}">add comment</a>
+            </div>
+            {% else %}
+            <p>Complete story to view comments</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
